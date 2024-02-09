@@ -42,7 +42,6 @@ async function run() {
 
     app.get("/products", async (req, res) => {
       const products = req.body;
-      console.log(products);
       const cursor = clouthCollection.find();
       const result = await cursor.toArray();
       res.send(result);
@@ -50,7 +49,6 @@ async function run() {
 
     app.get("/productDetails/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await clouthCollection.findOne(query);
       res.send(result);
@@ -65,6 +63,36 @@ async function run() {
       const reviews = req.body;
       console.log(reviews);
       const result = await reviewCollection.find().toArray();
+      res.send(result);
+    });
+
+    // cart databse with crud operation
+
+    const cartCollection = client.db("FashionDB").collection("AddedCart");
+
+    app.get("/addedCart", async (req, res) => {
+      const result = await cartCollection.find().toArray();
+      res.send(result);
+    });
+    app.get("/addedCart/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await cartCollection.findOne(query);
+      res.send(result);
+    });
+    app.post("/addedCart", async (req, res) => {
+      const cart = req.body;
+      const result = await cartCollection.insertOne(cart);
+      res.send(result);
+    });
+    app.delete("/addedCart/:id", async (req, res) => {
+      const id = req.params.id;
+      const cursor = { _id: new ObjectId(id) };
+      const result = await cartCollection.deleteOne(cursor);
+      res.send(result);
+    });
+    app.delete("/addedCart", async (req, res) => {
+      const result = await cartCollection.deleteMany();
       res.send(result);
     });
   } finally {
