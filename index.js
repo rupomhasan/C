@@ -12,9 +12,6 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}
 @cluster0.r44bh6t.mongodb.net/?retryWrites=true&w=majority`;
 
-// const uri = `mongodb+srv://FashionShop:GG3oIxNJbMLMKG6x
-// @cluster0.r44bh6t.mongodb.net/?retryWrites=true&w=majority`;
-
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
